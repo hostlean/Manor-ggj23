@@ -66,3 +66,4 @@ crashlytics-build.properties
 Recordings
 *.aab
 UserSettings/EditorUserSettings.asset
+*.dwlt
