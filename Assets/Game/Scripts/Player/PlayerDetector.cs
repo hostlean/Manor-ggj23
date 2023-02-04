@@ -8,12 +8,14 @@ namespace Manor
     {
 
         private Transform _transform;
+        private bool isHolding;
+        public event Action<bool> OnHoldingStatusChanged;
         private void Awake()
         {
             _transform = transform;
         }
 
-        private Dictionary<int, MemoryObject> _memoryObjectDict = new Dictionary<int, MemoryObject>();
+        private readonly Dictionary<int, Item> _memoryObjectDict = new();
 
 
         private void Update()
@@ -21,23 +23,34 @@ namespace Manor
             if(_memoryObjectDict.Count <= 0) 
                 return;
 
-            MemoryObject currentObj = null;
+            Item currentItem = null;
             foreach (var kvp in _memoryObjectDict)
             {
                 var key = kvp.Key;
                 var value = kvp.Value;
 
 
-                currentObj = value;
+                if (currentItem != null)
+                {
+                    if (Vector3.Distance(value.transform.position, _transform.position) <
+                        Vector3.Distance(currentItem.transform.position, _transform.position))
+                    {
+                        currentItem = value;
+                    }
+                }
+                else
+                {
+                    currentItem = value;
+                }
             }
             
-            currentObj?.DisplayName();
+            currentItem?.DisplayName();
             
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            var isMemoryObj = other.GetComponent<MemoryObject>();
+            var isMemoryObj = other.GetComponent<Item>();
 
             if (isMemoryObj)
             {
@@ -47,7 +60,7 @@ namespace Manor
 
         private void OnTriggerExit(Collider other)
         {
-            var isMemoryObj = other.GetComponent<MemoryObject>();
+            var isMemoryObj = other.GetComponent<Item>();
 
             if (isMemoryObj)
             {
@@ -55,22 +68,28 @@ namespace Manor
             }
         }
 
-        private void AddMemoryObject(MemoryObject obj)
+        private void AddMemoryObject(Item item)
         {
-            var id = obj.gameObject.GetInstanceID();
+            var id = item.gameObject.GetInstanceID();
             if (!_memoryObjectDict.ContainsKey(id))
             {
-                _memoryObjectDict.Add(id, obj);
+                _memoryObjectDict.Add(id, item);
             }
         }
 
-        private void RemoveMemoryObject(MemoryObject obj)
+        private void RemoveMemoryObject(Item item)
         {
-            var id = obj.gameObject.GetInstanceID();
+            var id = item.gameObject.GetInstanceID();
             if (_memoryObjectDict.ContainsKey(id))
             {
                 _memoryObjectDict.Remove(id);
             }
+        }
+
+        public void SetHoldingStatus(bool status)
+        {
+            isHolding = status;
+            OnHoldingStatusChanged?.Invoke(isHolding);
         }
     }
 }

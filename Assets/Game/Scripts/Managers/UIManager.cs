@@ -11,19 +11,17 @@ namespace Manor.Managers
         [SerializeField] private Button startButton;
         [SerializeField] private Button creditsButton;
         [SerializeField] private Button settingsButton;
-        [SerializeField] private ObjectDisplayScreen objectDisplayScreen;
 
         public event Action OnStartButtonClicked;
         public event Action OnCreditsButtonClicked;
         public event Action OnSettingsButtonClicked;
-        public  Action<string,string> OnObjectDisplayed;
+        public event Action<string,string> OnObjectDisplayed;
         
         private void Awake()
         {
             startButton.onClick.AddListener(FireOnStartButtonClicked);
             creditsButton.onClick.AddListener(FireOnCreditsButtonClicked);
             settingsButton.onClick.AddListener(FireOnSettingsButtonClicked);
-            OnObjectDisplayed += objectDisplayScreen.Display;
         }
 
         private void FireOnStartButtonClicked()
@@ -43,12 +41,7 @@ namespace Manor.Managers
             OnSettingsButtonClicked?.Invoke();
         }
 
-        private void FireOnObjectDisplayed(bool isObjectDisplayed)
-        {
-            objectDisplayScreen.gameObject.SetActive(isObjectDisplayed);
-        }
 
-        
 
 
         public void ToggleUIElement(GameObject UI_Object,bool isEnabled)
