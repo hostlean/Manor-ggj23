@@ -18,6 +18,9 @@ namespace Manor
 
         private void Update()
         {
+            if(_memoryObjectDict.Count <= 0) 
+                return;
+            
             
         }
 
