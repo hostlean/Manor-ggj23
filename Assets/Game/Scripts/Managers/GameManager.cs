@@ -14,10 +14,21 @@ namespace Manor.Managers
         
         public event Action<string> OnControlSchemeChanged;
         public event Action<GameState> OnGameStateChanged;
+
+        private UIManager _uiManager;
         private void Awake()
         {
+            _uiManager = FindObjectOfType<UIManager>();
+
+            _uiManager.OnStartButtonClicked += StartGame;
+            
             ChangeControlScheme(KeyboardMouseControls);
             ChangeGameState(GameState.Start);
+        }
+
+        private void StartGame()
+        {
+            ChangeGameState(GameState.InGame);
         }
 
         private void Update()

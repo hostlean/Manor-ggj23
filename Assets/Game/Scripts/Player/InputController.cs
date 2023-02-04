@@ -31,9 +31,7 @@ namespace Manor
             {
                 ChangePlayerInputStatus(state != GameState.InGame);
             };
-            
-           
-            
+
             _gameInputs = new GameInputs();
 
             _gameInputs.Player.Move.performed += HandleMoveInput;

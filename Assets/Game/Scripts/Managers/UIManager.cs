@@ -1,24 +1,43 @@
 ﻿using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 
 namespace Manor.Managers
 {
     public class UIManager : MonoBehaviour
     {
-        public static UIManager _instance;
+        [SerializeField] private GameObject startPanel;
+        [SerializeField] private Button startButton;
+        [SerializeField] private Button creditsButton;
+        [SerializeField] private Button settingsButton;
 
-
-        private void Awake() 
+        public event Action OnStartButtonClicked;
+        public event Action OnCreditsButtonClicked;
+        public event Action OnSettingsButtonClicked;
+        
+        private void Awake()
         {
-            if (_instance != null && _instance != this) 
-            { 
-                Destroy(this); 
-            } 
-            else 
-            { 
-                _instance = this; 
-            } 
+            startButton.onClick.AddListener(FireOnStartButtonClicked);
+            creditsButton.onClick.AddListener(FireOnCreditsButtonClicked);
+            settingsButton.onClick.AddListener(FireOnSettingsButtonClicked);
+        }
+
+        private void FireOnStartButtonClicked()
+        {
+            Debug.Log("Clicked");
+            OnStartButtonClicked?.Invoke();
+            startPanel.gameObject.SetActive(false);
+        }
+
+        private void FireOnCreditsButtonClicked()
+        {
+            OnCreditsButtonClicked?.Invoke();
+        }
+
+        private void FireOnSettingsButtonClicked()
+        {
+            OnSettingsButtonClicked?.Invoke();
         }
 
 
