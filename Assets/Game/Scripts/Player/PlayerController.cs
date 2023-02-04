@@ -1,4 +1,5 @@
 ﻿using System;
+using Manor.Managers;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -13,12 +14,14 @@ namespace Manor
         [SerializeField] private float cameraSpeed = 250f;
         
         private InputController _inputController;
-        
-      
+
+        private GameManager _gameManager;
 
 
         private void Awake()
         {
+            _gameManager = FindObjectOfType<GameManager>();
+
             _inputController = FindObjectOfType<InputController>();
 
             _inputController.OnPointerInput += RotatePlayer;
@@ -34,6 +37,7 @@ namespace Manor
             var horizontal = delta.normalized.x;
             var vertical = -delta.normalized.y;
             
+
             if(Time.timeScale > 0f && Time.deltaTime > 0f)
             {
                 horizontal /= Time.deltaTime;

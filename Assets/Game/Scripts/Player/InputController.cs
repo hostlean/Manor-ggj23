@@ -32,6 +32,8 @@ namespace Manor
                 ChangePlayerInputStatus(state != GameState.InGame);
             };
             
+            _gameManager.ChangeGameState(GameState.InGame);
+            
             _gameInputs = new GameInputs();
 
             _gameInputs.Player.Move.performed += HandleMoveInput;
@@ -39,6 +41,8 @@ namespace Manor
             _gameInputs.Player.Interaction.started += HandleInteractionInput;
             _gameInputs.Player.Back.started += HandleBackInput;
             _gameInputs.Player.Inventory.started += HandleInventoryInput;
+            
+            _gameInputs.Enable();
 
         }
 
