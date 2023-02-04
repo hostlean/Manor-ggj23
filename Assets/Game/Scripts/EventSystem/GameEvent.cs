@@ -20,9 +20,13 @@ namespace Core
 
         public void Fire()
         {
+            if(listeners.Count <= 0)
+            {
+                return;
+            }
             foreach (var listener in listeners)
             {
-                listener.response.Invoke();
+                listener.response?.Invoke();
             }
         }
     }
