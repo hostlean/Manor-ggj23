@@ -6,12 +6,18 @@ namespace Manor
 {
     public class PlayerDetector : MonoBehaviour
     {
-
         private Transform _transform;
         private bool isHolding;
         public event Action<bool> OnHoldingStatusChanged;
+        
+        public bool HasItem { get; set; }
+        
+        public Item CurrentItem { get; private set; }
+        
+        
         private void Awake()
         {
+            HasItem = false;
             _transform = transform;
         }
 
@@ -20,47 +26,54 @@ namespace Manor
 
         private void Update()
         {
-            if(_memoryObjectDict.Count <= 0) 
+            if(_memoryObjectDict.Count <= 0)
+            {
+                HasItem = false;
                 return;
+            }
 
-            Item currentItem = null;
+            CurrentItem = null;
             foreach (var kvp in _memoryObjectDict)
             {
                 var key = kvp.Key;
                 var value = kvp.Value;
 
 
-                if (currentItem != null)
+                if (CurrentItem != null)
                 {
                     if (Vector3.Distance(value.transform.position, _transform.position) <
-                        Vector3.Distance(currentItem.transform.position, _transform.position))
+                        Vector3.Distance(CurrentItem.transform.position, _transform.position))
                     {
-                        currentItem = value;
+                        CurrentItem = value;
+                        CurrentItem.HideName();
                     }
                 }
                 else
                 {
-                    currentItem = value;
+                    CurrentItem = value;
+                    CurrentItem.HideName();
                 }
             }
-            
-            currentItem?.ShowName();
+
+            HasItem = true;
+            CurrentItem?.ShowName();
             
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            var isMemoryObj = other.GetComponent<Item>();
+            var isMemoryObj = other.GetComponentInParent<Item>();
 
             if (isMemoryObj)
             {
+                Debug.Log("ITEM");
                 AddMemoryObject(isMemoryObj);
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            var isMemoryObj = other.GetComponent<Item>();
+            var isMemoryObj = other.GetComponentInParent<Item>();
 
             if (isMemoryObj)
             {
@@ -82,6 +95,7 @@ namespace Manor
             var id = item.gameObject.GetInstanceID();
             if (_memoryObjectDict.ContainsKey(id))
             {
+                _memoryObjectDict[id].HideName();
                 _memoryObjectDict.Remove(id);
             }
         }
