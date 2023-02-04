@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Manor.Managers;
+using UnityEngine;
 
 
 namespace Manor
@@ -20,11 +21,22 @@ namespace Manor
 
         private InputController _inputController;
 
+        private GameManager _gameManager;
+
         private void Awake()
         {
+            _gameManager = FindObjectOfType<GameManager>();
+
+            _gameManager.OnGameStateChanged += state =>
+            {
+                SetCursorState(state == GameState.InGame);
+            };
+            
             _inputController = FindObjectOfType<InputController>();
             _inputController.OnMoveInput += OnMove;
             _inputController.OnPointerInput += OnLook;
+            
+            SetCursorState(_gameManager.CurrentGameState == GameState.InGame);
         }
 
 
@@ -71,12 +83,7 @@ namespace Manor
             sprint = newSprintState;
         }
 
-        private void OnApplicationFocus(bool hasFocus)
-        {
-            SetCursorState(cursorLocked);
-        }
-
-        private void SetCursorState(bool newState)
+        public void SetCursorState(bool newState)
         {
             Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
         }
