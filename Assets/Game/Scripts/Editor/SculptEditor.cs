@@ -1,11 +1,10 @@
-﻿using System;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEditor;
 
-namespace Manor.Editor
+
+namespace Manor
 {
     [CustomEditor(typeof(Sculpt))]
-    public class SculptEditor : UnityEditor. Editor
+    public class SculptEditor : CustomEditorBase
     {
 
         private Sculpt _myScript;
@@ -19,10 +18,7 @@ namespace Manor.Editor
          
             base.OnInspectorGUI();
             
-            if (GUILayout.Button("Open"))
-            {
-                _myScript.Close();
-            }
+            InspectorButton("Close", _myScript.Close);
         }
     }
 }
