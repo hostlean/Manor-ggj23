@@ -26,6 +26,7 @@ namespace Manor
 
         private void Update()
         {
+            if(isHolding) return;
             if(_memoryObjectDict.Count <= 0)
             {
                 HasItem = false;
@@ -56,7 +57,7 @@ namespace Manor
             }
 
             HasItem = true;
-            CurrentItem?.ShowName();
+            CurrentItem?.ShowName(_transform);
             
         }
 
@@ -104,6 +105,20 @@ namespace Manor
         {
             isHolding = status;
             OnHoldingStatusChanged?.Invoke(isHolding);
+            foreach (var kvp in _memoryObjectDict)
+            {
+                var item = kvp.Value;
+                item.HideName();
+            }
+        }
+
+        public void ThrowItem()
+        {
+            if (HasItem)
+            {
+                CurrentItem.transform.SetParent(null);
+                CurrentItem.GetThrown(_transform.forward, 20);
+            }
         }
     }
 }
