@@ -13,6 +13,9 @@ namespace Manor
         
         [TextArea(1,4)]
         public string itemDescription;
+
+        [TextArea(4,8)]
+        public string itemStory;
     }    
 }
 

@@ -5,46 +5,31 @@ namespace Manor
 {
     public class Item : MonoBehaviour
     {
-        [SerializeField]
-        private ItemInfo itemInfo;
-
-        [SerializeField] private ItemStory itemStory;
+        [SerializeField] private ItemInfo itemInfo;
+        [SerializeField] private GameObject itemUIPanel;
         
-        private UIManager _uiManager;
-        
-
-        private void Start() 
-        {
-            _uiManager = FindObjectOfType<UIManager>();
-        }
-
-
+     
         private bool _nameDisplayed;
 
         
-        public void DisplayName()
+        public void ShowName()
         {
             if(_nameDisplayed)            
             {                
                 return;
             } 
-                
-            //Display obj name
-            if(itemInfo && _uiManager)
+            
+            if(itemInfo && itemUIPanel)
             {
                 _nameDisplayed = true;
                 
-                string _objectName = itemInfo.itemName;
-                string _objectDescription = itemInfo.itemDescription;
-
-
+                string itemName = itemInfo.itemName;
             }
         }
 
-        public void UnDisplayName()
+        public void HideName()
         {
             _nameDisplayed = false;
-            _uiManager = FindObjectOfType<UIManager>();
         }
     }
 }

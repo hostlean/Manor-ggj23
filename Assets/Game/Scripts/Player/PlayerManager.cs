@@ -8,6 +8,15 @@ namespace Manor
 
         public bool isHoldingAnItem;
 
+        private PlayerDetector _playerDetector;
+        
+        
+        
+        private void Awake()
+        {
+            
+        }
+
 
         public void StartInteract()
         {
