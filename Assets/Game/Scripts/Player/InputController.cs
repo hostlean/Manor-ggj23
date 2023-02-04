@@ -32,7 +32,7 @@ namespace Manor
                 ChangePlayerInputStatus(state != GameState.InGame);
             };
             
-            _gameManager.ChangeGameState(GameState.InGame);
+           
             
             _gameInputs = new GameInputs();
 
@@ -45,6 +45,8 @@ namespace Manor
             _gameInputs.Player.Inventory.started += HandleInventoryInput;
             
             _gameInputs.Enable();
+
+            _disablePlayerInput = _gameManager.CurrentGameState != GameState.InGame;
 
         }
 
