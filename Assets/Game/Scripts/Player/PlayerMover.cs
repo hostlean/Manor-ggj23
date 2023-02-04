@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using Manor.Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -43,8 +43,9 @@ namespace Manor
         private Transform _transform;
         private GameObject _mainCamera;
         private CharacterController _controller;
-        private PlayerInputs _input;
+        private AllGameInputs _input;
         private InputController _inputController;
+        private PlayerInput _playerInput;
         
         private float _cinemachineTargetPitch;
 
@@ -66,12 +67,13 @@ namespace Manor
         {
             get
             {
-                return _gameManager.CurrentControlScheme == "KeyboardMouse";
+                return _playerInput.currentControlScheme == "KeyboardMouse";
             }
         }
         
         private void Awake()
         {
+            _playerInput = GetComponent<PlayerInput>();
             _gameManager = FindObjectOfType<GameManager>();
             // get a reference to our main camera
             if (_mainCamera == null)
@@ -83,7 +85,7 @@ namespace Manor
         private void Start()
         {
             _controller = GetComponent<CharacterController>();
-            _input = GetComponent<PlayerInputs>();
+            _input = GetComponent<AllGameInputs>();
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
             _inputController = GetComponent<InputController>();
 #endif

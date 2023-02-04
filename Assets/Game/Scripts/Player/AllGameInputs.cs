@@ -3,7 +3,7 @@
 
 namespace Manor
 {
-    public class PlayerInputs : MonoBehaviour
+    public class AllGameInputs : MonoBehaviour
     {
         [Header("Character Input Values")] 
         public Vector2 move;
