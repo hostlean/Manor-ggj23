@@ -39,6 +39,7 @@ namespace Manor
             _gameInputs.Player.Move.performed += HandleMoveInput;
             _gameInputs.Player.Move.canceled += HandleMoveInput;
             _gameInputs.Player.PointerMovement.performed += HandlePointerMovementInput;
+            _gameInputs.Player.PointerMovement.canceled += HandlePointerMovementInput;
             _gameInputs.Player.Interaction.started += HandleInteractionInput;
             _gameInputs.Player.Back.started += HandleBackInput;
             _gameInputs.Player.Inventory.started += HandleInventoryInput;
